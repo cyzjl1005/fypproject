@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WhiteSpace</string>
+    <string name="edit_message">Enter the location_x</string>
+    <string name="edit_location">Enter the location_y</string>
+    <string name="button_send">Send</string>
+    <string name="checkbox_pay">pay for the information?</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_display_message">WhiteSpace information</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="listview">listview</string>
+    <string name="channel">channel</string>
+    <string name="interference">interference</string>
+    <string name="button_sendchannel">join</string>
+    <string name="choose_channel">Enter A Channel</string>
+    <string name="title_activity_join">Join a channel</string>
+    <string name="button_disconnect">disconnect</string>
+    <string name="title_activity_logged_in">LoggedInActivity</string>
+    <string name="button_login">login</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+
+</resources>
