@@ -21,13 +21,20 @@
         android:layout_height="wrap_content"
         android:text="@string/checkbox_pay"
         android:onClick="onCheckboxClicked"/>
-
     <Button
-        android:id="@+id/button_send"
+        android:id="@+id/button2"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:text="@string/button_send" 
         android:onClick="sendMessage" />
+    
+    
+    <fragment
+    android:name="com.google.android.gms.maps.MapFragment"
+    android:id="@+id/map2"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"/>
 
+    
 </LinearLayout>

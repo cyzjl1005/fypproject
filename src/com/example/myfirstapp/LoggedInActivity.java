@@ -3,6 +3,7 @@ package com.example.myfirstapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,8 +11,15 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class LoggedInActivity extends Activity {
+
+public class LoggedInActivity extends Activity implements OnMapReadyCallback {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +27,25 @@ public class LoggedInActivity extends Activity {
 		setContentView(R.layout.activity_logged_in);
 		Intent intent = getIntent();
 	    String username = intent.getStringExtra("username");
+	    
+	    MapFragment mapFragment = (MapFragment) getFragmentManager()
+			    .findFragmentById(R.id.map2);
+		mapFragment.getMapAsync(this);
 	}
+	
+	public void onMapReady(GoogleMap map) {
+        LatLng sydney = new LatLng(22.2666, 114.166);
+
+        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+
+        map.addMarker(new MarkerOptions()
+                .title("Hongkong")
+                .snippet("The international business center.")
+                .position(sydney));
+    }
+	
+	
 
 	/** Called when the user clicks the Send button */
     public void sendMessage(View view) {

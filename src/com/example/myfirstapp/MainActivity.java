@@ -5,8 +5,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
+
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,14 +25,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.android.gms.maps.MapFragment;
 
 
+public class MainActivity extends ActionBarActivity implements ConnectionCallbacks, OnConnectionFailedListener{
 
-public class MainActivity extends ActionBarActivity {
-
-	
+	private GoogleApiClient mGoogleApiClient;
 	private static final int MSG_SUCCESS = 1;
 	private static final int MSG_FAILURE = 0;
+	private TextView mLatitudeText;
+	private TextView mLongitudeText;
 	
 	private Button btn;
 	private Thread mthread;
@@ -39,6 +51,10 @@ public class MainActivity extends ActionBarActivity {
         }
         Log.i("wcyz666", "error1");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        
+    	mLatitudeText=(TextView) findViewById(R.id.textView1);
+    	mLongitudeText=(TextView) findViewById(R.id.textView2);
         btn=(Button)findViewById(R.id.button1);
         btn.setOnClickListener(new OnClickListener() {  
             
@@ -47,8 +63,66 @@ public class MainActivity extends ActionBarActivity {
                 mthread.start();  
                     
             }  
-        });  
+        });
+//        MapFragment mapFragment = (MapFragment) getFragmentManager()
+//       	    .findFragmentById(R.id.map);
+        
+
+           mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+           
+           
+        
     }
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+         // more about this later
+            mGoogleApiClient.connect();
+        
+    }
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+    
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        mLatitudeText.setText("123");
+        if (mLastLocation != null) {
+
+            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+        } else {
+        	mLatitudeText.setText("lat:failed");
+        	mLongitudeText.setText("lon:failed");
+        }
+    }
+    
+    @Override
+    public void onConnectionSuspended(int cause) {
+        // The connection has been interrupted.
+        // Disable any UI components that depend on Google APIs
+        // until onConnected() is called.
+    	mLatitudeText.setText("234");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        // This callback is important for handling errors that
+        // may occur while attempting to connect with Google.
+        //
+        // More about this in the next section.
+    	mLatitudeText.setText("345");
+        
+    }
+
     
     Runnable runnable = new Runnable() {
 
